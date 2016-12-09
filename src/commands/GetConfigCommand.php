@@ -202,7 +202,7 @@ class GetConfigCommand extends Command
                 ['code' => 2];
         }
 
-        chmod($filePath, 0755);
+        chmod('config_backup/' . $fileName . '.bc', 0755);
         return $return;
     }
 }
