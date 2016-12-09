@@ -194,7 +194,7 @@ class GetConfigCommand extends Command
             return ['code' => 2];
         }
 
-        $isEqual = md5(file_get_contents($filePath)) !== md5(file_get_contents('config_backup/' . $fileName . '.bc'));
+        $isEqual = is_dir('config_backup') ? md5(file_get_contents($filePath)) !== md5(file_get_contents('config_backup/' . $fileName . '.bc')) : false;
 
         if (!file_exists('config_backup/' . $fileName . '.bc') || $isEqual) {
             $return = ($this->cfgService->makeBcDir() && copy($filePath, 'config_backup/' . $fileName . '.bc')) ?
