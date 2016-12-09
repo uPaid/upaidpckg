@@ -1,0 +1,14 @@
+{
+  "name": "uPaid/upaidpckg",
+  "description": "Download configuration from remote repository by artisan command.",
+  "license": "MIT",
+  "homepage": "https://github.com/uPaid/upaidpckg",
+  "autoload": {
+    "psr-4": {
+      "Upaidpckg\\Config\\": "src"
+    }
+  },
+  "require": {
+    "php": ">= 5.3"
+   }
+}
