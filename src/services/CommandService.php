@@ -64,7 +64,7 @@ class CommandService
     function makeBcDir()
     {
         $ret = @mkdir('config_backup');
-        chmod('config_backup', 0755);
+        //chmod('config_backup', 0755);
         return $ret === true || is_dir('config_backup');
     }
 
