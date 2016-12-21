@@ -171,7 +171,35 @@ class GetConfigCommand extends Command
     private function updateFile($fileName, $data, $appName)
     {
         $filePath = $this->cfgService->getFilePath($fileName, $appName);
-        return  file_put_contents($filePath, $data) !== false;
+        $this->createDirIfNotExists($filePath);
+        $handler = fopen($filePath, 'w+');
+        return fwrite($handler, $data) !== false;
+    }
+
+    /**
+     * Get dir path from file path
+     *
+     * @param $filePath Path to file
+     *
+     * @return string
+     */
+    private function getDirPath($filePath) {
+        $delimiter = strpos($filePath, '/') !== false ? '/' : '\\';
+        $arrayOfDirs = explode($delimiter, $filePath);
+        array_pop($arrayOfDirs);
+        return implode($delimiter, $arrayOfDirs);
+    }
+
+    /**
+     * Create directory if not exists
+     *
+     * @param $filePath
+     */
+    private function createDirIfNotExists($filePath) {
+        $dir = $this->getDirPath($filePath);
+        if(!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
     }
 
     /**
