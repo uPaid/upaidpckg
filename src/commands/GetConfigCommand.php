@@ -39,7 +39,6 @@ class GetConfigCommand extends Command
      */
     public $cfgService;
 
-
     /**
      * GetConfigCommand constructor.
      *
@@ -171,7 +170,9 @@ class GetConfigCommand extends Command
     private function updateFile($fileName, $data, $appName)
     {
         $filePath = $this->cfgService->getFilePath($fileName, $appName);
-        $this->createDirIfNotExists($filePath);
+        if(preg_match('/[\/\\\\]/', $filePath)) {
+            $this->createDirIfNotExists($this->getDirPath($filePath));
+        }
         $handler = fopen($filePath, 'w+');
         return fwrite($handler, $data) !== false;
     }
@@ -179,24 +180,26 @@ class GetConfigCommand extends Command
     /**
      * Get dir path from file path
      *
-     * @param $filePath Path to file
+     * @param $filePath string Path to file
      *
      * @return string
      */
     private function getDirPath($filePath) {
         $delimiter = strpos($filePath, '/') !== false ? '/' : '\\';
         $arrayOfDirs = explode($delimiter, $filePath);
-        array_pop($arrayOfDirs);
-        return implode($delimiter, $arrayOfDirs);
+        if(count($arrayOfDirs) > 2) {
+            array_pop($arrayOfDirs);
+            return implode($delimiter, $arrayOfDirs);
+        }
+        return $filePath;
     }
 
     /**
      * Create directory if not exists
      *
-     * @param $filePath
+     * @param $dir
      */
-    private function createDirIfNotExists($filePath) {
-        $dir = $this->getDirPath($filePath);
+    private function createDirIfNotExists($dir) {
         if(!is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
