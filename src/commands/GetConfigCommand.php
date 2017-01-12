@@ -218,22 +218,23 @@ class GetConfigCommand extends Command
      */
     private function createBackup($fileName, $appName)
     {
-        $return = ['code' => 0];
-
         $filePath = $this->cfgService->getFilePath($fileName, $appName);
         if (!file_exists($filePath)) {
             return ['code' => 2];
         }
 
-        $isEqual = is_dir('config_backup') ? md5(file_get_contents($filePath)) !== md5(file_get_contents('config_backup/' . $fileName . '.bc')) : false;
+        $fileExist = file_exists('config_backup/' . $fileName . '.bc');
 
-        if (!file_exists('config_backup/' . $fileName . '.bc') || $isEqual) {
+        $isEqual = (is_dir('config_backup') && $fileExist) ? md5(file_get_contents($filePath)) === md5(file_get_contents('config_backup/' . $fileName . '.bc')) : false;
+
+        if (!$isEqual) {
             $return = ($this->cfgService->makeBcDir() && copy($filePath, 'config_backup/' . $fileName . '.bc')) ?
                 ['code' => 1] :
                 ['code' => 2];
+        } else {
+            $return = ['code' => 0];
         }
 
-        //chmod('config_backup/' . $fileName . '.bc', 0755);
         return $return;
     }
 }
