@@ -39,15 +39,15 @@ class CommandService
      */
     public function validate($data, $fileExtension)
     {
-        switch ($fileExtension) {
+       switch ($fileExtension) {
             case 'crt':
-                $return = openssl_csr_get_public_key($data);
+                $return = openssl_csr_get_public_key($data) || openssl_x509_read($data);
                 break;
             case 'env':
                 $return = parse_ini_string($data);
                 break;
             case 'key':
-                $return = openssl_pkey_get_private($data);
+                $return = openssl_pkey_get_private($data,  \Config::get('masterpass.connection.oAuth.passphrase'));
                 break;
             default:
                 $return = false;
