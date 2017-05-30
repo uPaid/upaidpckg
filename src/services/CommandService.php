@@ -18,7 +18,7 @@ class CommandService
         $filePath = null;
         foreach (config('upaidpckg.keys_paths') as $file => $path) {
             if ($fileName === $file) {
-                if ($fileName === '.env') {
+                if ($fileName === '.env' || $fileName === 'frontend.json') {
                     $filePath = $path . $fileName;
                 } else {
                     $filePath =  $path . $appName . '/' . $fileName;
@@ -49,6 +49,9 @@ class CommandService
             case 'key':
                 $return = openssl_pkey_get_private($data,  \Config::get('masterpass.connection.oAuth.passphrase'));
                 break;
+            case 'json':
+               return $data;
+               break;
             default:
                 $return = false;
         }

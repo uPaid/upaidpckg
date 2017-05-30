@@ -10,5 +10,6 @@ return [
         '.env' => '',
         'upaid-trevica-openapi.crt' => '.env.files/keys/oAuth/',
         'upaid.pl.key' => '.env.files/keys/oAuth/',
+        'frontend.json' => 'config/frontend_config/',
     ],
 ];
