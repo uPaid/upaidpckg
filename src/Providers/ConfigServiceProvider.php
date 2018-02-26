@@ -19,7 +19,7 @@ class ConfigServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        require_once(__DIR__.'/../config/config.php');
+        require_once(__DIR__ . '/../Config/config.php');
     }
 
     /**
@@ -29,7 +29,7 @@ class ConfigServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom( __DIR__.'/../config/config.php', 'upaidpckg');
+        $this->mergeConfigFrom( __DIR__ . '/../Config/config.php', 'upaidpckg');
         $this->commands($this->commands);
     }
 }
