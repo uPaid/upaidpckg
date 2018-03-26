@@ -53,7 +53,7 @@ class CommandService
                return $data;
                break;
             default:
-                $return = false;
+                $return = true;
         }
 
         return ($return !== false && !empty($data));
