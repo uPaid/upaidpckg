@@ -112,7 +112,7 @@ class GetConfigCommand extends Command
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, false);
             $data = curl_exec($curl);
-            if (!curl_errno($curl)) {
+            if (curl_errno($curl)) {
                 $output->writeln('Validation of remote ' . $fileName . ' file failed!');
             } else {
                 if (!curl_errno($curl)) {
