@@ -111,6 +111,7 @@ class GetConfigCommand extends Command
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, false);
+            $this->setHttpHeader($curl, $fileName);
             $data = curl_exec($curl);
             if (curl_errno($curl)) {
                 $output->writeln('Validation of remote ' . $fileName . ' file failed!');
@@ -236,5 +237,12 @@ class GetConfigCommand extends Command
         }
 
         return $return;
+    }
+    
+    private function setHttpHeader($curl, $fileName)
+    {
+        if($fileName == '.env'){
+            curl_setopt($curl, CURLOPT_HTTPHEADER, ['Accept: text/decrypted-env']);
+        }
     }
 }
